@@ -1,16 +1,17 @@
 import { useState, useRef, useEffect } from "react";
-import { Bot } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ChatHeader } from "./ChatHeader";
 import { ChatMessage } from "./ChatMessage";
 import { ChatInput } from "./ChatInput";
 import { ChatHistory } from "./ChatHistory";
+import { TypingIndicator } from "./TypingIndicator";
+import { QuickActions } from "./QuickActions";
 
 interface Message {
   id: string;
   content: string;
   isUser: boolean;
-  timestamp: string;
 }
 
 interface ChatSession {
@@ -29,28 +30,28 @@ const demoSessions: ChatSession[] = [
     preview: "Подскажите пожалуйста как...",
     date: "Сегодня",
     messages: [
-      { id: "1", content: "Как заполнить Факт КПД?", isUser: true, timestamp: "14:30" },
-      { id: "2", content: "Для заполнения Факта КПД перейдите в раздел 'Отчеты' → 'КПД' → 'Создать новый'. Заполните все обязательные поля и нажмите 'Сохранить'.", isUser: false, timestamp: "14:31" },
+      { id: "1", content: "Как заполнить Факт КПД?", isUser: true },
+      { id: "2", content: "Для заполнения Факта КПД перейдите в раздел 'Отчеты' → 'КПД' → 'Создать новый'. Заполните все обязательные поля и нажмите 'Сохранить'.", isUser: false },
     ],
   },
   {
     id: "2", 
     title: "Создание задачи",
     preview: "Как создать новую задачу?",
-    date: "Вчера",
+    date: "Сегодня",
     messages: [
-      { id: "1", content: "Как создать новую задачу в системе?", isUser: true, timestamp: "10:15" },
-      { id: "2", content: "Для создания задачи нажмите '+' в разделе 'Задачи и Проекты', выберите тип задачи и заполните описание.", isUser: false, timestamp: "10:16" },
+      { id: "1", content: "Как создать новую задачу в системе?", isUser: true },
+      { id: "2", content: "Для создания задачи нажмите '+' в разделе 'Задачи и Проекты', выберите тип задачи и заполните описание.", isUser: false },
     ],
   },
   {
     id: "3",
     title: "Работа с документами",
     preview: "Где найти шаблоны?",
-    date: "15.01.2025",
+    date: "Вчера",
     messages: [
-      { id: "1", content: "Где найти шаблоны документов?", isUser: true, timestamp: "09:00" },
-      { id: "2", content: "Шаблоны документов находятся в разделе 'База знаний' → 'Шаблоны'. Вы можете фильтровать по категориям.", isUser: false, timestamp: "09:01" },
+      { id: "1", content: "Где найти шаблоны документов?", isUser: true },
+      { id: "2", content: "Шаблоны документов находятся в разделе 'База знаний' → 'Шаблоны'. Вы можете фильтровать по категориям.", isUser: false },
     ],
   },
 ];
@@ -61,6 +62,7 @@ export const AIHubChatWidget = () => {
   const [sessions, setSessions] = useState(demoSessions);
   const [activeSessionId, setActiveSessionId] = useState<string | null>("1");
   const [currentMessages, setCurrentMessages] = useState<Message[]>(demoSessions[0].messages);
+  const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -69,7 +71,7 @@ export const AIHubChatWidget = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [currentMessages]);
+  }, [currentMessages, isTyping]);
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -97,7 +99,7 @@ export const AIHubChatWidget = () => {
       id: Date.now().toString(),
       title: "Новый чат",
       preview: "Начните диалог...",
-      date: "Сейчас",
+      date: "Сегодня",
       messages: [],
     };
     setSessions([newSession, ...sessions]);
@@ -105,27 +107,54 @@ export const AIHubChatWidget = () => {
     setCurrentMessages([]);
   };
 
+  const handleDeleteSession = (id: string) => {
+    setSessions(sessions.filter(s => s.id !== id));
+    if (activeSessionId === id) {
+      const remaining = sessions.filter(s => s.id !== id);
+      if (remaining.length > 0) {
+        setActiveSessionId(remaining[0].id);
+        setCurrentMessages(remaining[0].messages);
+      } else {
+        setActiveSessionId(null);
+        setCurrentMessages([]);
+      }
+    }
+  };
+
   const handleSendMessage = (content: string) => {
     const newMessage: Message = {
       id: Date.now().toString(),
       content,
       isUser: true,
-      timestamp: new Date().toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" }),
     };
     
     setCurrentMessages((prev) => [...prev, newMessage]);
+    setIsTyping(true);
     
     // Simulate AI response
     setTimeout(() => {
+      setIsTyping(false);
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
         content: "Спасибо за ваш вопрос! Я обрабатываю информацию и скоро предоставлю ответ. Пожалуйста, подождите...",
         isUser: false,
-        timestamp: new Date().toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" }),
       };
       setCurrentMessages((prev) => [...prev, aiResponse]);
-    }, 1000);
+    }, 1500);
   };
+
+  const EmptyState = () => (
+    <div className="flex flex-col items-center justify-center h-full text-center px-6">
+      <div className="w-16 h-16 rounded-full bg-chat-send-button/10 flex items-center justify-center mb-4">
+        <MessageCircle className="w-8 h-8 text-chat-send-button" />
+      </div>
+      <h3 className="text-lg font-medium text-foreground mb-1">Чем могу помочь?</h3>
+      <p className="text-sm text-muted-foreground mb-6">
+        Задайте вопрос или выберите действие
+      </p>
+      <QuickActions onSelect={handleSendMessage} />
+    </div>
+  );
 
   return (
     <>
@@ -135,14 +164,14 @@ export const AIHubChatWidget = () => {
           onClick={handleOpen}
           className={cn(
             "fixed bottom-6 right-6 z-50",
-            "flex items-center gap-2 px-5 py-3 rounded-full",
-            "bg-primary text-primary-foreground font-medium",
-            "shadow-lg hover:shadow-xl transition-all duration-300",
-            "hover:scale-105 active:scale-95",
-            "animate-pulse-gentle"
+            "flex items-center gap-2.5 px-5 py-3 rounded-full",
+            "bg-chat-send-button text-white font-medium",
+            "shadow-lg shadow-chat-send-button/20 hover:shadow-xl hover:shadow-chat-send-button/30",
+            "transition-all duration-300",
+            "hover:scale-105 active:scale-95"
           )}
         >
-          <Bot className="w-5 h-5" />
+          <MessageCircle className="w-5 h-5" />
           <span>AI-HUB</span>
         </button>
       )}
@@ -151,8 +180,9 @@ export const AIHubChatWidget = () => {
       {isOpen && !isExpanded && (
         <div
           className={cn(
-            "fixed bottom-6 right-6 z-50 w-[380px] h-[500px]",
-            "flex flex-col rounded-xl shadow-2xl overflow-hidden",
+            "fixed bottom-6 right-6 z-50 w-[400px] h-[520px]",
+            "flex flex-col rounded-2xl shadow-2xl overflow-hidden",
+            "border border-border/30 bg-background",
             "animate-chat-slide-up"
           )}
         >
@@ -164,23 +194,29 @@ export const AIHubChatWidget = () => {
           
           {/* Chat Messages Area */}
           <div 
-            className="flex-1 overflow-y-auto p-4 space-y-4"
+            className="flex-1 overflow-y-auto p-4 space-y-3"
             style={{
-              background: "linear-gradient(135deg, hsl(var(--chat-gradient-start)), hsl(var(--chat-gradient-end)))"
+              background: "linear-gradient(180deg, hsl(var(--chat-gradient-start)) 0%, hsl(var(--chat-gradient-end)) 100%)"
             }}
           >
-            {currentMessages.map((message) => (
-              <ChatMessage
-                key={message.id}
-                content={message.content}
-                isUser={message.isUser}
-                timestamp={message.timestamp}
-              />
-            ))}
+            {currentMessages.length === 0 ? (
+              <EmptyState />
+            ) : (
+              <>
+                {currentMessages.map((message) => (
+                  <ChatMessage
+                    key={message.id}
+                    content={message.content}
+                    isUser={message.isUser}
+                  />
+                ))}
+                {isTyping && <TypingIndicator />}
+              </>
+            )}
             <div ref={messagesEndRef} />
           </div>
           
-          <ChatInput onSend={handleSendMessage} />
+          <ChatInput onSend={handleSendMessage} disabled={isTyping} />
         </div>
       )}
 
@@ -189,7 +225,8 @@ export const AIHubChatWidget = () => {
         <div
           className={cn(
             "fixed inset-4 md:inset-8 lg:inset-12 z-50",
-            "flex rounded-xl shadow-2xl overflow-hidden",
+            "flex rounded-2xl shadow-2xl overflow-hidden",
+            "border border-border/30 bg-background",
             "animate-chat-expand"
           )}
         >
@@ -200,6 +237,7 @@ export const AIHubChatWidget = () => {
               activeSessionId={activeSessionId}
               onSelectSession={handleSelectSession}
               onNewChat={handleNewChat}
+              onDeleteSession={handleDeleteSession}
             />
           </div>
           
@@ -212,33 +250,29 @@ export const AIHubChatWidget = () => {
             />
             
             <div 
-              className="flex-1 overflow-y-auto p-6 space-y-4"
+              className="flex-1 overflow-y-auto p-6 space-y-3"
               style={{
-                background: "linear-gradient(135deg, hsl(var(--chat-gradient-start)), hsl(var(--chat-gradient-end)))"
+                background: "linear-gradient(180deg, hsl(var(--chat-gradient-start)) 0%, hsl(var(--chat-gradient-end)) 100%)"
               }}
             >
               {currentMessages.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full text-center">
-                  <Bot className="w-16 h-16 text-primary/30 mb-4" />
-                  <h3 className="text-lg font-medium text-foreground/70">Начните новый диалог</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Задайте любой вопрос и AI-HUB поможет вам
-                  </p>
-                </div>
+                <EmptyState />
               ) : (
-                currentMessages.map((message) => (
-                  <ChatMessage
-                    key={message.id}
-                    content={message.content}
-                    isUser={message.isUser}
-                    timestamp={message.timestamp}
-                  />
-                ))
+                <>
+                  {currentMessages.map((message) => (
+                    <ChatMessage
+                      key={message.id}
+                      content={message.content}
+                      isUser={message.isUser}
+                    />
+                  ))}
+                  {isTyping && <TypingIndicator />}
+                </>
               )}
               <div ref={messagesEndRef} />
             </div>
             
-            <ChatInput onSend={handleSendMessage} />
+            <ChatInput onSend={handleSendMessage} disabled={isTyping} />
           </div>
         </div>
       )}
@@ -246,7 +280,7 @@ export const AIHubChatWidget = () => {
       {/* Backdrop for expanded view */}
       {isOpen && isExpanded && (
         <div 
-          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
           onClick={handleClose}
         />
       )}
