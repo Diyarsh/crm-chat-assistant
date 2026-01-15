@@ -58,7 +58,6 @@ const demoSessions: ChatSession[] = [
 export const AIHubChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [language, setLanguage] = useState("RU");
   const [sessions, setSessions] = useState(demoSessions);
   const [activeSessionId, setActiveSessionId] = useState<string | null>("1");
   const [currentMessages, setCurrentMessages] = useState<Message[]>(demoSessions[0].messages);
@@ -161,8 +160,6 @@ export const AIHubChatWidget = () => {
             onClose={handleClose}
             onToggleExpand={handleToggleExpand}
             isExpanded={isExpanded}
-            language={language}
-            onLanguageChange={setLanguage}
           />
           
           {/* Chat Messages Area */}
@@ -212,8 +209,6 @@ export const AIHubChatWidget = () => {
               onClose={handleClose}
               onToggleExpand={handleToggleExpand}
               isExpanded={isExpanded}
-              language={language}
-              onLanguageChange={setLanguage}
             />
             
             <div 
