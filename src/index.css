@@ -39,18 +39,20 @@ All colors MUST be HSL.
     --radius: 0.75rem;
 
     /* Chat widget specific tokens */
-    --chat-gradient-start: 180 50% 92%;
-    --chat-gradient-end: 175 45% 75%;
-    --chat-header: 213 55% 25%;
+    --chat-accent: 223 67% 42%;
+    --chat-accent-light: 223 60% 95%;
+    --chat-gradient-start: 220 15% 97%;
+    --chat-gradient-end: 223 30% 92%;
+    --chat-header: 223 67% 42%;
     --chat-header-foreground: 0 0% 100%;
-    --chat-bubble-user: 213 55% 25%;
+    --chat-bubble-user: 223 67% 42%;
     --chat-bubble-user-foreground: 0 0% 100%;
     --chat-bubble-ai: 0 0% 100%;
-    --chat-bubble-ai-foreground: 215 25% 20%;
-    --chat-history-bg: 0 0% 98%;
-    --chat-history-hover: 210 20% 94%;
-    --chat-history-active: 175 40% 90%;
-    --chat-send-button: 175 60% 45%;
+    --chat-bubble-ai-foreground: 220 15% 25%;
+    --chat-history-bg: 220 15% 98%;
+    --chat-history-hover: 220 12% 94%;
+    --chat-history-active: 223 50% 92%;
+    --chat-send-button: 223 67% 42%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -92,19 +94,20 @@ All colors MUST be HSL.
     --ring: 175 60% 50%;
 
     /* Chat widget dark mode */
-    --chat-gradient-start: 200 40% 15%;
-    --chat-gradient-end: 175 35% 25%;
-    --chat-header: 213 55% 20%;
+    --chat-accent: 223 67% 55%;
+    --chat-accent-light: 223 40% 20%;
+    --chat-gradient-start: 220 25% 12%;
+    --chat-gradient-end: 223 30% 18%;
+    --chat-header: 223 50% 30%;
     --chat-header-foreground: 0 0% 100%;
-    --chat-bubble-user: 175 60% 45%;
+    --chat-bubble-user: 223 67% 50%;
     --chat-bubble-user-foreground: 0 0% 100%;
-    --chat-bubble-ai: 222 40% 15%;
-    --chat-bubble-ai-foreground: 210 40% 98%;
-    --chat-history-bg: 222 40% 10%;
-    --chat-history-hover: 222 40% 15%;
-    --chat-history-active: 175 40% 20%;
-    --chat-send-button: 175 60% 45%;
-
+    --chat-bubble-ai: 220 25% 18%;
+    --chat-bubble-ai-foreground: 220 15% 90%;
+    --chat-history-bg: 220 25% 10%;
+    --chat-history-hover: 220 25% 15%;
+    --chat-history-active: 223 40% 25%;
+    --chat-send-button: 223 67% 55%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
