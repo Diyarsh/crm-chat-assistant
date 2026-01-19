@@ -17,11 +17,11 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 215 25% 20%;
 
-    --primary: 213 55% 25%;
+    --primary: 211 60% 16%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 200 20% 96%;
-    --secondary-foreground: 213 55% 25%;
+    --secondary-foreground: 211 60% 16%;
 
     --muted: 210 20% 96%;
     --muted-foreground: 215 15% 50%;
@@ -34,25 +34,25 @@ All colors MUST be HSL.
 
     --border: 214 30% 90%;
     --input: 214 30% 90%;
-    --ring: 213 55% 25%;
+    --ring: 211 60% 16%;
 
     --radius: 0.75rem;
 
     /* Chat widget specific tokens */
-    --chat-accent: 223 67% 42%;
-    --chat-accent-light: 223 60% 95%;
+    --chat-accent: 211 60% 16%;
+    --chat-accent-light: 211 30% 95%;
     --chat-gradient-start: 220 15% 97%;
     --chat-gradient-end: 223 30% 92%;
-    --chat-header: 223 67% 42%;
+    --chat-header: 211 60% 16%;
     --chat-header-foreground: 0 0% 100%;
-    --chat-bubble-user: 223 67% 42%;
+    --chat-bubble-user: 211 60% 16%;
     --chat-bubble-user-foreground: 0 0% 100%;
     --chat-bubble-ai: 0 0% 100%;
     --chat-bubble-ai-foreground: 220 15% 25%;
     --chat-history-bg: 220 15% 98%;
     --chat-history-hover: 220 12% 94%;
-    --chat-history-active: 223 50% 92%;
-    --chat-send-button: 223 67% 42%;
+    --chat-history-active: 211 30% 92%;
+    --chat-send-button: 211 60% 16%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -94,20 +94,20 @@ All colors MUST be HSL.
     --ring: 175 60% 50%;
 
     /* Chat widget dark mode */
-    --chat-accent: 223 67% 55%;
-    --chat-accent-light: 223 40% 20%;
+    --chat-accent: 211 50% 25%;
+    --chat-accent-light: 211 30% 20%;
     --chat-gradient-start: 220 25% 12%;
     --chat-gradient-end: 223 30% 18%;
-    --chat-header: 223 50% 30%;
+    --chat-header: 211 50% 25%;
     --chat-header-foreground: 0 0% 100%;
-    --chat-bubble-user: 223 67% 50%;
+    --chat-bubble-user: 211 50% 25%;
     --chat-bubble-user-foreground: 0 0% 100%;
     --chat-bubble-ai: 220 25% 18%;
     --chat-bubble-ai-foreground: 220 15% 90%;
     --chat-history-bg: 220 25% 10%;
     --chat-history-hover: 220 25% 15%;
-    --chat-history-active: 223 40% 25%;
-    --chat-send-button: 223 67% 55%;
+    --chat-history-active: 211 30% 25%;
+    --chat-send-button: 211 50% 25%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -127,4 +127,54 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Loader animation for Spline */
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 3px solid hsl(var(--muted));
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.loader::after {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-bottom-color: hsl(var(--primary));
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Spotlight animation */
+@keyframes spotlight {
+  0% {
+    opacity: 0;
+    transform: translate(-72%, -62%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -40%) scale(1);
+  }
+}
+
+.animate-spotlight {
+  animation: spotlight 2s ease-out forwards;
 }

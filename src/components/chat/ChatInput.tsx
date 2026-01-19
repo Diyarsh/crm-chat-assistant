@@ -1,5 +1,5 @@
 import { useState, KeyboardEvent } from "react";
-import { Send, Paperclip, Mic } from "lucide-react";
+import { Send, Paperclip } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ChatInputProps {
@@ -67,15 +67,6 @@ export const ChatInput = ({
           }}
         />
         
-        {/* Voice input button */}
-        <button
-          type="button"
-          className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-colors"
-          title="Голосовой ввод"
-        >
-          <Mic className="w-4 h-4" />
-        </button>
-        
         {/* Send button */}
         <button
           onClick={handleSend}
@@ -90,8 +81,8 @@ export const ChatInput = ({
           <Send className="w-4 h-4" />
         </button>
       </div>
-      <p className="text-[10px] text-muted-foreground/60 text-center mt-2">
-        Нажмите Enter для отправки, Shift+Enter для новой строки
+      <p className="text-[10px] text-muted-foreground/60 text-center mt-2 whitespace-nowrap">
+        Ответы генерируются ИИ и могут содержать неточности
       </p>
     </div>
   );

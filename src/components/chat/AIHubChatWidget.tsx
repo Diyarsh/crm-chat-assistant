@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ChatHeader } from "./ChatHeader";
 import { ChatMessage } from "./ChatMessage";
@@ -7,6 +7,7 @@ import { ChatInput } from "./ChatInput";
 import { ChatHistory } from "./ChatHistory";
 import { TypingIndicator } from "./TypingIndicator";
 import { QuickActions } from "./QuickActions";
+import { SplineScene } from "@/components/ui/spline";
 
 interface Message {
   id: string;
@@ -60,8 +61,8 @@ export const AIHubChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [sessions, setSessions] = useState(demoSessions);
-  const [activeSessionId, setActiveSessionId] = useState<string | null>("1");
-  const [currentMessages, setCurrentMessages] = useState<Message[]>(demoSessions[0].messages);
+  const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
+  const [currentMessages, setCurrentMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -91,6 +92,9 @@ export const AIHubChatWidget = () => {
     if (session) {
       setActiveSessionId(id);
       setCurrentMessages(session.messages);
+    } else {
+      setActiveSessionId(null);
+      setCurrentMessages([]);
     }
   };
 
@@ -145,8 +149,11 @@ export const AIHubChatWidget = () => {
 
   const EmptyState = () => (
     <div className="flex flex-col items-center justify-center h-full text-center px-6">
-      <div className="w-16 h-16 rounded-full bg-chat-send-button/10 flex items-center justify-center mb-4">
-        <MessageCircle className="w-8 h-8 text-chat-send-button" />
+      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-white to-slate-100 border-2 border-chat-send-button/20 flex items-center justify-center mb-4 overflow-hidden relative">
+        <SplineScene 
+          scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+          className="w-full h-full pointer-events-none"
+        />
       </div>
       <h3 className="text-lg font-medium text-foreground mb-1">Чем могу помочь?</h3>
       <p className="text-sm text-muted-foreground mb-6">
@@ -164,15 +171,22 @@ export const AIHubChatWidget = () => {
           onClick={handleOpen}
           className={cn(
             "fixed bottom-6 right-6 z-50",
-            "flex items-center gap-2.5 px-5 py-3 rounded-full",
-            "bg-chat-send-button text-white font-medium",
+            "flex items-center justify-center",
+            "w-16 h-16 rounded-full",
+            "bg-gradient-to-br from-white to-slate-100 overflow-hidden",
+            "border-2 border-chat-send-button/20",
             "shadow-lg shadow-chat-send-button/20 hover:shadow-xl hover:shadow-chat-send-button/30",
             "transition-all duration-300",
             "hover:scale-105 active:scale-95"
           )}
+          title="AI-HUB"
         >
-          <MessageCircle className="w-5 h-5" />
-          <span>AI-HUB</span>
+          <div className="w-full h-full relative pointer-events-none">
+            <SplineScene 
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+              className="w-full h-full"
+            />
+          </div>
         </button>
       )}
 

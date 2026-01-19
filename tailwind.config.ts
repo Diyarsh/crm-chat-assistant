@@ -106,6 +106,16 @@ export default {
           from: { opacity: "0", transform: "translateY(10px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
+        spotlight: {
+          "0%": {
+            opacity: "0",
+            transform: "translate(-72%, -62%) scale(0.5)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translate(-50%, -40%) scale(1)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -115,6 +125,7 @@ export default {
         "chat-expand": "chat-expand 0.3s ease-out",
         "pulse-gentle": "pulse-gentle 2s ease-in-out infinite",
         "message-in": "message-in 0.3s ease-out",
+        spotlight: "spotlight 2s ease-out forwards",
       },
     },
   },
