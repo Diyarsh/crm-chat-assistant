@@ -1,73 +1,98 @@
-# Welcome to your Lovable project
+# AI-HUB Chat Widget для Bitrix24
 
-## Project info
+Интерактивный чат-виджет с 3D аватаром робота для интеграции в Bitrix24.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Возможности
 
-## How can I edit this code?
+- 🤖 3D аватар робота (Spline)
+- 💬 Интерактивный чат с ИИ-ассистентом
+- 🎯 Карточки быстрых действий с вложенными меню
+- 📱 Адаптивный дизайн
+- 🎨 Кастомизируемая цветовая схема (#102841)
+- 📜 История чатов
+- 🔍 Поиск по истории
 
-There are several ways of editing your application.
+## Технологии
 
-**Use Lovable**
+- **React 18** + **TypeScript**
+- **Vite** - сборщик
+- **Tailwind CSS** - стилизация
+- **shadcn/ui** - UI компоненты
+- **Spline** - 3D графика
+- **React Router** - маршрутизация
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Быстрый старт
 
-Changes made via Lovable will be committed automatically to this repo.
+### Установка зависимостей
 
-**Use your preferred IDE**
+```bash
+npm install
+```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Запуск в режиме разработки
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Приложение будет доступно по адресу: `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Сборка для production
 
-**Use GitHub Codespaces**
+```bash
+npm run build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Собранные файлы будут в папке `dist/`
 
-## What technologies are used for this project?
+## Деплой
 
-This project is built with:
+### На Vercel
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+См. подробные инструкции в файле [DEPLOY.md](./DEPLOY.md)
 
-## How can I deploy this project?
+```bash
+# Установка Vercel CLI
+npm i -g vercel
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+# Деплой
+vercel --prod
+```
 
-## Can I connect a custom domain to my Lovable project?
+## Интеграция в Bitrix24
 
-Yes, you can!
+Подробная инструкция по интеграции находится в файле [INTEGRATION_RU.md](./INTEGRATION_RU.md)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Быстрая интеграция
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Добавьте в шаблон Bitrix24:
+
+```html
+<div id="aihub-widget-root"></div>
+<script type="module" src="https://your-vercel-app.vercel.app/assets/index-[hash].js"></script>
+<link rel="stylesheet" href="https://your-vercel-app.vercel.app/assets/index-[hash].css">
+```
+
+## Структура проекта
+
+```
+├── src/
+│   ├── components/
+│   │   ├── chat/          # Компоненты чата
+│   │   └── ui/            # UI компоненты shadcn
+│   ├── pages/             # Страницы приложения
+│   ├── lib/               # Утилиты
+│   └── index.css          # Глобальные стили
+├── public/                # Статические файлы
+├── INTEGRATION_RU.md      # Инструкция по интеграции
+└── DEPLOY.md              # Инструкция по деплою
+```
+
+## Документация
+
+- [Инструкция по интеграции в Bitrix24](./INTEGRATION_RU.md)
+- [Инструкция по деплою на Vercel](./DEPLOY.md)
+
+## Лицензия
+
+Проект разработан для QazCloud
