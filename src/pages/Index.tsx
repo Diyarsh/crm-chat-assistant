@@ -7,7 +7,7 @@ const Index = () => {
       <img 
         src="/bitrix-screenshot.png"
         alt="Bitrix24 Interface"
-        className="absolute inset-0 w-full h-full object-cover object-center"
+        className="absolute inset-0 w-full h-full object-cover object-center blur-sm"
       />
       
       {/* AI-HUB Chat Widget - appears on top */}
